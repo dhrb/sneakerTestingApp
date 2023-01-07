@@ -1,0 +1,82 @@
+.wrapp {
+    background-color: white;
+    margin:40px auto;
+    max-width: 1080px;
+    border-radius: 20px;
+    .headerWrap {
+        border-bottom: 1px #eaeaea solid;
+        .header {
+            margin-left: 5px;
+            display: flex;
+            justify-content: space-between;
+            .logo {
+                display: flex;
+                .logotype {
+                    display: flex;
+                    align-items: center;
+                }
+                .logoImg {
+                    margin-right: 10px;
+                    width: 70px;
+                    height: 70px;
+                }
+            .name {
+                .logoName {
+                    font-weight: bold;
+                }
+            }
+            }
+        .cartBlock {
+            .cart {
+                display: flex;
+                list-style-type: none;
+                .cartItem {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                }
+                .cartImg {
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 10px;
+
+                    }
+                }
+            }
+        }
+    }
+    .content {
+        padding: 40px;
+        .productCard {
+            display: flex;
+            .productItem {
+                border: 1px solid #eaeaea;
+                max-width: 150px;
+                display: block;
+                text-align: center;
+                margin: 10px;
+                .prodImg {
+                    margin: 50% auto;
+                    width: 100px;
+                    height: 100px;
+                    display: flex;
+                }
+                .productPriceDesc {
+                    display: block;
+                }
+            }
+            .cardBottom {
+                margin: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .addCartImg {
+
+                    width: 20px;
+                    height: 20px;
+                    border: 1px solid #eaeaea;
+                }
+            }
+        }
+    }
+}
