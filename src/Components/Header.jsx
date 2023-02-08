@@ -3,7 +3,7 @@ import logo from './../assets/img/sneakers.png'
 import cart from './../assets/img/cart.png'
 import logIn from './../assets/img/logIn.png'
 
-function Header() {
+function Header(props) {
     return(
         <div className='header'>
           <div className='logo'>
@@ -17,7 +17,7 @@ function Header() {
           </div>
           <div className='cartBlock'>
             <ul className='cart'>
-              <li className='cartItem'>
+              <li className='cartItem' onClick={props.openCart}>
                 <span className='cartSum'>100uah</span>
                 <img alt='cart' className='cartImg' src={cart} />
               </li>

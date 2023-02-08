@@ -1,64 +1,83 @@
+//modules
 import './App.scss';
-import snek1 from './assets/img/1.png'
-import snek2 from './assets/img/2.png'
-import snek3 from './assets/img/3.png'
-import snek6 from './assets/img/6.png'
-import likeBtn from './assets/img/like.png'
-import addCart from './assets/img/addCart.png'
-import search from './assets/img/search.png'
-import unliked from './assets/img/unliked.png'
-import delBtn from './assets/img/delBtn.png'
-import arrow from './assets/img/arrow.png'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+//components
 import ProductItem from './Components/ProductItem'
 import Header from './Components/Header'
 import Drawer from './Components/Drawer'
+//assets
+import clear from './assets/img/clear.png'
+import search from './assets/img/search.png'
 
-const arr = [
-  {
-    title: 'Nike Air Max 270',
-    price: 3200,
-    img: snek6
-  },
-  {
-    title: 'Nike Air Run Blazer Mid',
-    price: 3200,
-    img: snek1
-  },
-  {
-    title: 'Nike Huarache 100500',
-    price: 3200,
-    img: snek2
-  },
-  {
-    title: 'Nike Suede Top Cross 200',
-    price: 3200,
-    img: snek3
-  }
-]
+//code
+const cartAdd = 'localhost:5005/cartAdd';
+const cartDelete = 'localhost:5005/cartDelete';
 
+//main app function
 function App() {
+
+  const [items, setItems] = useState([])
+  const [cartOpened, setOpen] = useState(false)
+  const [cartItems, setCartItems] = useState([])
+  const [searchValue, setSearchValue] = useState([])
+
+  //get data from server
+  useEffect(() => {
+    axios.get('http://localhost:5005/').then((res) => {
+      setItems(res.data.data);
+    })
+  }, [])
+
+  const onAddToCart = (obj) => {
+    setCartItems(prev => [...prev, obj])
+    axios.post(cartAdd, cartItems)
+  }
+  const onRemoveFromCart = (obj) => {
+    setCartItems(prev => [...prev, obj])
+    console.log(cartItems)
+  }
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value)
+  }
+  
   return (
     <div className="wrapp">
-      <Drawer />
+      {cartOpened && 
+        <Drawer 
+          items={cartItems} 
+          closeCart={() => setOpen(false)}
+          onRemove={onRemoveFromCart}
+        />
+      }
       <header className='headerWrap'>
-        <Header />
+        <Header openCart={() => setOpen(true)} />
       </header>
       <div className='content'>
         <div className='nameContent'>
-          <h1>Кросівки</h1>
+          <h1>{searchValue ? `Поиск по запросу:"${searchValue}"`: 'Кросівки'}</h1>
           <div className='searchField'>
             <img className='searchIcon' alt='searchIcon' src={search}/>
-            <input className='contentSearchField' placeholder='Search'/>
+            <input maxLength={25} className='contentSearchField' placeholder='Search' onChange={onChangeSearchInput}/>
+            {searchValue && 
+              <img 
+                className='clearBtn'
+                alt='clearBtn'
+                src={clear}
+                onClick={() => setSearchValue('')}
+              />}
           </div>
         </div>
         <div className='productCard'>
-          {
-            arr.map((item) => (
+          {items
+            .filter((item) => item.title.toLowerCase().includes(searchValue))
+            .map((item, index) => (
               <ProductItem 
+                key={index}
                 title = {item.title}
                 price={item.price}
                 imgUrl={item.img}
-                onClick={() => console.log(item)}  
+                onAdd={onAddToCart}
               />
             ))
           }

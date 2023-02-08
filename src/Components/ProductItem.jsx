@@ -1,19 +1,31 @@
+import './../App.scss';
+import { useEffect, useState } from 'react';
+
 import addCart from './../assets/img/addCart.png'
 import unliked from './../assets/img/unliked.png'
-import './../App.scss';
+import checkDone from './../assets/img/checkDone.png'
 
-function ProductItem(props) {
-    const onClkBtn = () => {
-        alert(`Added ${props.title}`)
+function ProductItem({title, imgUrl, price, onAdd}) {
+    const [isAdded, setAdd] = useState(false);
+
+    const onClickPlus = () => {
+        setAdd(!isAdded)
+        !isAdded ? console.log('added') : console.log('removed');
+        onAdd({title, price, imgUrl})
     }
+
+    const onLiked = () => {
+        console.log('liked')
+    }
+
     return (
         <div className='productItem'>
-            <img className='likeBtn' src={unliked} alt='unliked' />
-            <img className='prodImg' src={props.imgUrl} alt='prodItem' />
-            <span className='productName'>{props.title}</span>
+            <img className='likeBtn' src={unliked} alt='unliked' onClick={onLiked}/>
+            <img className='prodImg' src={imgUrl} alt='prodItem' />
+            <span className='productName'>{title}</span>
             <div className='cardBottom'>
-            <span className='productPriceDesc'>Ціна: <b> {props.price}</b></span>
-            <img src={addCart} alt='addcartitem' className='addCartImg' onClick={props.onClick}/>
+                <span className='productPriceDesc'>Ціна: <b> {price}</b></span>
+                <img src={isAdded ? checkDone : addCart} alt='addcartitem' className='addCartImg' onClick={onClickPlus}/>
             </div>
       </div>
     )
