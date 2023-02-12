@@ -10,7 +10,13 @@
         right: 0;
         top: 0;
         background-color: rgba(0,0,0,0.4);
-
+        
+        .notAddedWrapp{
+            text-align: center;          
+            .emptyCartImg {
+                width: 200px;
+            }
+        }
         .drawer {
             padding: 0 15px;
             .cartTop {
@@ -114,16 +120,34 @@
                     width: 70px;
                     height: 70px;
                 }
-            .name {
-                .logoName {
-                    font-weight: bold;
+                .name {
+                    .logoName {
+                        font-weight: bold;
+                    }
                 }
             }
-            }
-        .cartBlock {
-            .cart {
+        .userBarWrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            .userBar {
                 display: flex;
                 list-style-type: none;
+                .likedItems {
+                    .likedImg{
+                        width: 30px;
+                        height: 30px;
+                        margin-right: 30px;
+                        // border-radius: 25px;
+                        border: 1px solid red;
+                        border-radius: 5px;
+                        &:hover {
+                            cursor: pointer;
+                            border-radius: 25px;
+                            transition: all 0.6s ease-in;
+                        }
+                    }
+                }
                 .cartItem {
                     display: flex;
                     align-items: center;
@@ -135,6 +159,50 @@
                     height: 30px;
                     margin-right: 10px;
 
+                    }
+                }
+            }
+        }
+        .likedItemsWrapper {
+            width: 300px;
+            height: auto;
+            background-color: lightgrey;
+            border-radius: 35px;
+            position: absolute;
+            padding: 0% 2%;
+            right: 4%;
+            .likedName{
+                font-size: 19px;
+                font-weight: 800;
+            }
+            .likedHeader {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1.4px solid black;
+                .likedCloseBtn {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 25px;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+            .likedBody {
+                padding: 5%;
+                .likedItem {
+                    display: flex;
+                    border-bottom: 1px solid black;
+                    padding: 2%;
+                    .deleteLikedItem {
+                        .likedDelImg{
+                            width: 25px;
+                            border-radius: 25px;
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
                     }
                 }
             }

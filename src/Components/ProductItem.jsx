@@ -1,12 +1,15 @@
 import './../App.scss';
 import { useEffect, useState } from 'react';
+import heart from './../assets/img/heart.png'
 
 import addCart from './../assets/img/addCart.png'
 import unliked from './../assets/img/unliked.png'
 import checkDone from './../assets/img/checkDone.png'
 
-function ProductItem({title, imgUrl, price, onAdd}) {
+function ProductItem({title, imgUrl, price, onAdd, onLiked}) {
+
     const [isAdded, setAdd] = useState(false);
+    const [liked, setLiked] = useState(false)
 
     const onClickPlus = () => {
         setAdd(!isAdded)
@@ -14,13 +17,20 @@ function ProductItem({title, imgUrl, price, onAdd}) {
         onAdd({title, price, imgUrl})
     }
 
-    const onLiked = () => {
-        console.log('liked')
+    const onClickLike = () => {
+        setLiked(!liked)
+        !liked ? console.log('liked') : console.log('unliked')
+        onLiked ({title, price, imgUrl})
     }
 
     return (
         <div className='productItem'>
-            <img className='likeBtn' src={unliked} alt='unliked' onClick={onLiked}/>
+            {
+                liked ?
+                <img className='likeBtn' src={heart} alt='liked' onClick={onClickLike}/>
+                :
+                <img className='likeBtn' src={unliked} alt='unliked' onClick={onClickLike}/>
+            }
             <img className='prodImg' src={imgUrl} alt='prodItem' />
             <span className='productName'>{title}</span>
             <div className='cardBottom'>

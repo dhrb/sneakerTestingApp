@@ -2,8 +2,10 @@ import './../App.scss';
 import logo from './../assets/img/sneakers.png'
 import cart from './../assets/img/cart.png'
 import logIn from './../assets/img/logIn.png'
+import likedImg from './../assets/img/likedItems.png'
+import { Link } from 'react-router-dom';
 
-function Header(props) {
+function Header({likedOpen, openCart}) {
     return(
         <div className='header'>
           <div className='logo'>
@@ -15,11 +17,28 @@ function Header(props) {
               <p className='logoDescription'>Магазин кросівок</p>
             </div>
           </div>
-          <div className='cartBlock'>
-            <ul className='cart'>
-              <li className='cartItem' onClick={props.openCart}>
+          <div className='userBarWrapper'>
+            <ul className='userBar'>
+              <li className='likedItems'>
+                <Link to={"/liked"}>
+
+                <img 
+                  className='likedImg'
+                  src={likedImg}
+                  alt='likedImg'
+                  onClick={likedOpen}
+                />
+                <p>testtesttessds</p>
+                </Link>
+              </li>
+              <li className='cartItem'>
                 <span className='cartSum'>100uah</span>
-                <img alt='cart' className='cartImg' src={cart} />
+                <img
+                  alt='cart'
+                  className='cartImg'
+                  src={cart}
+                  onClick={openCart}
+                />
               </li>
               <li className='logInItem'>
                 <img src={logIn} className='cartImg' alt='logIn'/>
