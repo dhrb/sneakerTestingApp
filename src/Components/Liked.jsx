@@ -1,10 +1,6 @@
 import closeBtn from './../assets/img/delBtn.png'
 
-function Liked({closeLiked, title, price, imgUrl, onRemoveFromLiked ,likedItems}) {
-
-    const onClickUnlike = () => {
-        onRemoveFromLiked({title, price, imgUrl})
-    }
+function Liked({closeLiked, onRemoveFromLiked ,likedItems}) {
 
     return(
         <div className="likedItemsWrapper">
@@ -33,7 +29,7 @@ function Liked({closeLiked, title, price, imgUrl, onRemoveFromLiked ,likedItems}
                                     src={closeBtn}
                                     alt='delFromLikedImg'
                                     className='likedDelImg'
-                                    onClick={() => onClickUnlike}
+                                    onClick={() => onRemoveFromLiked(item.id)}
                                 />
                             </div>
                         </div>

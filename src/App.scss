@@ -110,6 +110,11 @@
             display: flex;
             justify-content: space-between;
             .logo {
+                a {
+                    color: black;
+                    display: flex;
+                    text-decoration: none;
+                }
                 display: flex;
                 .logotype {
                     display: flex;
@@ -163,49 +168,52 @@
                 }
             }
         }
-        .likedItemsWrapper {
-            width: 300px;
-            height: auto;
-            background-color: lightgrey;
-            border-radius: 35px;
-            position: absolute;
-            padding: 0% 2%;
-            right: 4%;
-            .likedName{
-                font-size: 19px;
-                font-weight: 800;
-            }
-            .likedHeader {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1.4px solid black;
-                .likedCloseBtn {
-                    width: 25px;
-                    height: 25px;
-                    border-radius: 25px;
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-            }
-            .likedBody {
-                padding: 5%;
-                .likedItem {
-                    display: flex;
-                    border-bottom: 1px solid black;
-                    padding: 2%;
-                    .deleteLikedItem {
-                        .likedDelImg{
-                            width: 25px;
-                            border-radius: 25px;
-                            &:hover {
-                                cursor: pointer;
-                            }
-                        }
-                    }
-                }
-            }
+        .favoritesWrapp{
+            
+        }
+        // .likedItemsWrapper {
+        //     width: 300px;
+        //     height: auto;
+        //     background-color: lightgrey;
+        //     border-radius: 35px;
+        //     position: absolute;
+        //     padding: 0% 2%;
+        //     right: 4%;
+        //     .likedName{
+        //         font-size: 19px;
+        //         font-weight: 800;
+        //     }
+        //     .likedHeader {
+        //         display: flex;
+        //         align-items: center;
+        //         justify-content: space-between;
+        //         border-bottom: 1.4px solid black;
+        //         .likedCloseBtn {
+        //             width: 25px;
+        //             height: 25px;
+        //             border-radius: 25px;
+        //             &:hover {
+        //                 cursor: pointer;
+        //             }
+        //         }
+        //     }
+        //     .likedBody {
+        //         padding: 5%;
+        //         .likedItem {
+        //             display: flex;
+        //             border-bottom: 1px solid black;
+        //             padding: 2%;
+        //             .deleteLikedItem {
+        //                 .likedDelImg{
+        //                     width: 25px;
+        //                     border-radius: 25px;
+        //                     &:hover {
+        //                         cursor: pointer;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
         }
     }
     .content {
@@ -281,4 +289,3 @@
             }
         }
     }
-}

@@ -17,7 +17,7 @@ function Drawer({closeCart, onRemove,items = []}) {
                 {items.length >= 1 ? 
                     <div className='added'>
                         {items.map((item) => (
-                            <div className='item'>
+                            <div className='item' key={item.id}>
                                     <div className='addedItems'>
                                         <img src={item.imgUrl} alt='addedItem' className='addedItemImg' />
                                         <p className='addedItemName'>{item.title}</p>

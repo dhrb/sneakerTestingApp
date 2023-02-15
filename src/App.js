@@ -4,13 +4,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 //components
-import ProductItem from './Components/ProductItem'
 import Header from './Components/Header'
 import Drawer from './Components/Drawer'
-import Liked from './Components/Liked'
 //assets
-import clear from './assets/img/clear.png'
-import search from './assets/img/search.png'
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 //code
 const cartAddLink = 'http://localhost:5005/cartAdd';
@@ -20,47 +18,64 @@ const likedAddLink = 'http://localhost:5005/addliked';
 function App() {
 
   const [items, setItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   //cart opener and saver
   const [cartOpened, setOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
   //input search controller
   const [searchValue, setSearchValue] = useState([]);
   //liked items opener and saver
   const [likedItems, setLikedItems] = useState([]);
-  const [likedOpen, setLikedOpen] = useState(false);
 
   //get data from server
   useEffect(() => {
-    axios.get('http://localhost:5005/').then((res) => {
-      setItems(res.data.data);
-    });
-    axios.get('http://localhost:5005/cart').then((res) => {
-      setCartItems(res.data.data);
-    });
-    axios.get('http://localhost:5005/likedItems').then((res) => {
-      setLikedItems(res.data.data)
-    })
+    async function fetchData() {
+      const itemsRes = await axios.get('http://localhost:5005/');
+      const cartRes = await axios.get('http://localhost:5005/cart');
+      const likedRes = await axios.get('http://localhost:5005/likedItems');
+      setItems(itemsRes.data.data);
+      setCartItems(cartRes.data.data);
+      setLikedItems(likedRes.data.data)
+    }
+    fetchData()
   }, [])
 
   //ADD to cart, liked and send remove req to server data
   const onAddToCart = (obj) => {
-    console.log(obj)
-    setCartItems((prev) => [...prev, obj])
-    axios.post(cartAddLink, obj)
+    try{
+      if (cartItems.find((item) => item.id == obj.id)) {
+        axios.delete(`http://localhost:5005/removecart/${obj.id}`)
+        setCartItems((prev) => prev.filter((item) => item.id !== obj.id))
+      }
+      else {
+        axios.post(cartAddLink, obj)
+        setCartItems((prev) => [...prev, obj] )
+      }
+    } catch (error) {
+      console.error(error.message)
+      alert('Не вдалось закорзнити')
+    }
   }
-  const onAddToLike = (obj) => {
-    setLikedItems((prev) => [...prev, obj])
-    axios.post(likedAddLink, obj)
+  const onAddToLike = async (obj) => {
+    console.log(obj.id)
+    try{
+      if (likedItems.find((favObj) => favObj.id === obj.id)){
+        axios.delete(`http://localhost:5005/removeliked/${obj.id}`)
+      }
+      else {
+        const {data} = await axios.post(likedAddLink, obj)
+        setLikedItems((prev) => [...prev, data])
+      }
+    } catch (error) {
+      alert('Не вдалось лайкнути')
+    }
   }
   //REMOVE from cart, liked and send remove req to server
   const onRemoveFromCart = (id) => {
     axios.delete(`http://localhost:5005/removecart/${id}`)
-    console.log(id)
     setCartItems((prev) => prev.filter((item) => item.id !== id))
   }
   const onRemoveFromLiked = (id) => {
     axios.delete(`http://localhost:5005/removeliked/${id}`)
-    console.log(id)
     setLikedItems((prev) => prev.filter((item) => item.id !== id))
   }
   //change search input with btn
@@ -81,48 +96,33 @@ function App() {
       }
       <header className='headerWrap'>
         <Header 
-          likedOpen = {() => setLikedOpen(true)}
           openCart={() => setOpen(true)}
         />
-        {likedOpen && 
-          <Liked 
-            closeLiked= {() => setLikedOpen(false)}
-            likedItems= {likedItems}
-            onRemoveFromLiked= {() => onRemoveFromLiked}
-          />
-        }
       </header>
-      <div className='content'>
-        <div className='nameContent'>
-          <h1>{searchValue ? `Поиск по запросу:"${searchValue}"`: 'Кросівки'}</h1>
-          <div className='searchField'>
-            <img className='searchIcon' alt='searchIcon' src={search}/>
-            <input maxLength={25} className='contentSearchField' placeholder='Search' onChange={onChangeSearchInput}/>
-            {searchValue && 
-              <img 
-                className='clearBtn'
-                alt='clearBtn'
-                src={clear}
-                onClick={() => setSearchValue('')}
-              />}
-          </div>
-        </div>
-        <div className='productCard'>
-          {items
-            .filter((item) => item.title.toLowerCase().includes(searchValue))
-            .map((item, index) => (
-              <ProductItem 
-                key={index}
-                title = {item.title}
-                price={item.price}
-                imgUrl={item.img}
-                onAdd={onAddToCart}
-                onLiked={onAddToLike}
+      <Routes>
+          <Route path='/' element={
+            <Home
+              items={items}
+              onAddToCart={onAddToCart}
+              onAddToLike={onAddToLike}
+              onRemoveFromCart={onRemoveFromCart}
+              onRemoveFromLiked={onRemoveFromLiked}
+              onChangeSearchInput={onChangeSearchInput}
+            />} 
+          />
+          <Route 
+            path='/favorites' 
+            element={
+              <Favorites 
+                onRemoveFromLiked={onRemoveFromLiked}
+                onAddToCart={onAddToCart}
+                likedItems={likedItems}
+                onAddToLike={onAddToLike}
+                setLiked={setLikedItems}
               />
-            ))
-          }
-        </div>
-      </div>
+            } 
+          />
+      </Routes>
     </div>
   );
 }
