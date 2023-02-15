@@ -7,8 +7,8 @@ import addCart from './../assets/img/addCart.png'
 import unliked from './../assets/img/unliked.png'
 import checkDone from './../assets/img/checkDone.png'
 
-function ProductItem({id, title, imgUrl, price, onAdd, onLiked, favorited = false, loading}) {
-    const [isAdded, setAdd] = useState(false);
+function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = false, favorited = false, isLoading}) {
+    const [isAdded, setAdd] = useState(added);
     const [liked, setLiked] = useState(favorited );
 
     const onClickPlus = () => {
@@ -25,7 +25,7 @@ function ProductItem({id, title, imgUrl, price, onAdd, onLiked, favorited = fals
         <div className='productItem'>
             <>
             {
-                loading ? 
+                isLoading ? 
                     <ContentLoader 
                         speed={2}
                         width={600}

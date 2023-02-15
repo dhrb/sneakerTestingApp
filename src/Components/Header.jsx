@@ -1,5 +1,4 @@
 import './../App.scss';
-import Favorites from '../pages/Favorites';
 import { Link } from 'react-router-dom';
 
 import logo from './../assets/img/sneakers.png'

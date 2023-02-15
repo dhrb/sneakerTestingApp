@@ -21,17 +21,20 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   //cart opener and saver
   const [cartOpened, setOpen] = useState(false);
-  //input search controller
-  const [searchValue, setSearchValue] = useState([]);
   //liked items opener and saver
   const [likedItems, setLikedItems] = useState([]);
+  //loading skeletons or data from BE
+  const [isLoading, setLoading] = useState([]);
 
   //get data from server
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const itemsRes = await axios.get('http://localhost:5005/');
       const cartRes = await axios.get('http://localhost:5005/cart');
       const likedRes = await axios.get('http://localhost:5005/likedItems');
+      
+      setLoading(false)
       setItems(itemsRes.data.data);
       setCartItems(cartRes.data.data);
       setLikedItems(likedRes.data.data)
@@ -78,10 +81,6 @@ function App() {
     axios.delete(`http://localhost:5005/removeliked/${id}`)
     setLikedItems((prev) => prev.filter((item) => item.id !== id))
   }
-  //change search input with btn
-  const onChangeSearchInput = (event) => {
-    setSearchValue(event.target.value)
-  }
   
   //render application wrapper
   return (
@@ -103,11 +102,13 @@ function App() {
           <Route path='/' element={
             <Home
               items={items}
+              cartItems={cartItems}
               onAddToCart={onAddToCart}
               onAddToLike={onAddToLike}
               onRemoveFromCart={onRemoveFromCart}
               onRemoveFromLiked={onRemoveFromLiked}
-              onChangeSearchInput={onChangeSearchInput}
+              isLoading={isLoading}
+              setLoading={setLoading}
             />} 
           />
           <Route 
