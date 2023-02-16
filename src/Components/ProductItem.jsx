@@ -7,7 +7,7 @@ import addCart from './../assets/img/addCart.png'
 import unliked from './../assets/img/unliked.png'
 import checkDone from './../assets/img/checkDone.png'
 
-function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = false, favorited = false, isLoading}) {
+function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = true, favorited = false, isLoading}) {
     const [isAdded, setAdd] = useState(added);
     const [liked, setLiked] = useState(favorited );
 
@@ -43,7 +43,7 @@ function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = false, f
                 :
                 <>
                     {
-                        liked ?
+                        favorited ?
                         <img className='likeBtn' src={heart} alt='liked' onClick={onClickLike}/>
                         :
                         <img className='likeBtn' src={unliked} alt='unliked' onClick={onClickLike}/>
@@ -52,7 +52,7 @@ function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = false, f
                     <span className='productName'>{title}</span>
                     <div className='cardBottom'>
                         <span className='productPriceDesc'>Ціна: <b> {price}</b></span>
-                        <img src={isAdded ? checkDone : addCart} alt='addcartitem' className='addCartImg' onClick={onClickPlus}/>
+                        <img src={added ? checkDone : addCart} alt='addcartitem' className='addCartImg' onClick={onClickPlus}/>
                     </div>
                 </>
                 }

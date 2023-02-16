@@ -25,7 +25,6 @@ function Home({
 
   const renderItems = () => {
     const filteringItems = items.filter((item) => item.title.toLowerCase().includes(searchValue));
-    
     return (isLoading ? [...Array(10)] : filteringItems).map((item, index) => (
         <ProductItem 
             {...item}
