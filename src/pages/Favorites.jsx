@@ -2,7 +2,7 @@ import React from 'react';
 import './Favorites.scss';
 import ProductItem from '../Components/ProductItem';
 
-function Favorites({likedItems,onRemoveFromLiked, setLikedItems}) {
+function Favorites( {likedItems} ) {
   return (
     <div className='favoritesWrapper'>
         <div className='favoritesHeader'>
@@ -10,7 +10,7 @@ function Favorites({likedItems,onRemoveFromLiked, setLikedItems}) {
         </div>
         <div className='productCard'>
             {
-                likedItems.map((item, index) => (
+                likedItems.map((item, index) => (  
                     <ProductItem
                     key={index}
                     id={item.id}
@@ -18,8 +18,6 @@ function Favorites({likedItems,onRemoveFromLiked, setLikedItems}) {
                     price={item.price}
                     imgUrl={item.img}
                     favorited={true}
-                    setLikedItems={() => setLikedItems(true)}
-                    onRemoveFromLiked= {onRemoveFromLiked}
                     />
                 ))
             }

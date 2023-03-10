@@ -168,9 +168,6 @@
                 }
             }
         }
-        .favoritesWrapp{
-            
-        }
         // .likedItemsWrapper {
         //     width: 300px;
         //     height: auto;
@@ -250,6 +247,7 @@
         }
         .productCard {
             display: flex;
+            flex-wrap: wrap;
             .productItem {
                 border: 1px solid #eaeaea;
                 border-radius: 20px;

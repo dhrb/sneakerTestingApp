@@ -1,24 +1,23 @@
 //modules
 import './../App.scss';
-import { useState } from 'react';
+import { React, useState } from 'react';
 //components
 import ProductItem from './../Components/ProductItem'
 //assets
 import clear from './../assets/img/clear.png'
 import search from './../assets/img/search.png'
 
+
 //main app function
 function Home({
     items,
-    cartItems,
     onAddToCart,
-    onAddToLike,
-    onRemoveFromCart,
     onRemoveFromLiked,
     isLoading,
-    setLoading
 }) {
-  const [searchValue, setSearchValue] = useState([]);
+
+  const [searchValue, setSearchValue] = useState('');
+
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value)
   }
@@ -26,18 +25,15 @@ function Home({
   const renderItems = () => {
     const filteringItems = items.filter((item) => item.title.toLowerCase().includes(searchValue));
     return (isLoading ? [...Array(10)] : filteringItems).map((item, index) => (
-        <ProductItem 
-            {...item}
+        <ProductItem  
             key={index}
-            onAdd={onAddToCart}
-            onLiked={onAddToLike}
             isLoading={isLoading}
+            onAddToCart={onAddToCart}
             onRemoveFromLiked= {onRemoveFromLiked}        
-            added={cartItems.some((obj) => obj.id == item.id)}
+            {...item}
         />
     ))
   }
-
   return (
     <div className='content'>
         <div className='nameContent'>

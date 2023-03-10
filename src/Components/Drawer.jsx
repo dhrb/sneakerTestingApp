@@ -1,12 +1,32 @@
-// import snek1 from './../assets/img/1.png'
-import delBtn from './../assets/img/delBtn.png'
-import closeBtn from './../assets/img/delBtn.png'
-import arrow from './../assets/img/arrow.png'
-import emptyCart from './../assets/img/emptyCart.png'
+import delBtn from './../assets/img/delBtn.png';
+import arrow from './../assets/img/arrow.png';
+import emptyCart from './../assets/img/emptyCart.png';
+import orderComplete from './../assets/img/completed.png';
+import closeBtn from './../assets/img/delBtn.png';
+import {useContext, useState} from 'react';
+
+import Ordering from './Ordering';
 import './../App.scss';
+import React from 'react';
+import axios from 'axios';
+import AppContext from '../context';
 
 
 function Drawer({closeCart, onRemove,items = []}) {
+    const [isOrderComplete, setIsOrderComplete] = useState(true)
+    const {setCartItems} = React.useContext(AppContext);
+
+    const postOrder = async (obj) => {
+        const cartUrl = `http://localhost:5005/orders`;
+        try {
+            await axios.post(cartUrl, items)
+            setCartItems([])
+            setIsOrderComplete(true)
+            console.log('order complete')   
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <div className='overlay'>
             <div className='drawer'>
@@ -14,7 +34,7 @@ function Drawer({closeCart, onRemove,items = []}) {
                     <h2 className='cartBlock'>Корзина </h2>
                     <img className='cartRemoveBtn' alt='delItemBtn' src={closeBtn} onClick={closeCart}/>
                 </div>
-                {items.length >= 1 ? 
+                {items.length >= 1 ? (
                     <div className='added'>
                         {items.map((item) => (
                             <div className='item' key={item.id}>
@@ -31,26 +51,20 @@ function Drawer({closeCart, onRemove,items = []}) {
                             <div className='dots'> </div>
                             <p><b>5222 UAH</b></p>
                         </div>
-                        <button className='cartOrderBtn'>
+                        <button className='cartOrderBtn' onClick={postOrder}>
                             Оформити Замовлення
                             <img src={arrow} alt='orderArrow' className='orderBtnArrow'/>
                         </button>
                     </div>
+                )
                     :
-                    <div className='notAddedWrapp'>
-                        <img 
-                            src={emptyCart}
-                            className='emptyCartImg'
-                            alt='emptyCart'
+                    (
+                        <Ordering 
+                            cartImg={isOrderComplete ? orderComplete : emptyCart}
+                            closeCart={closeCart}
+                            description={isOrderComplete ? `Замовлення #id успішне` : 'Ваша корзина порожня'}
                         />
-                        <button 
-                            onClick={closeCart}
-                            className='cartOrderBtn'
-                        >
-                            <img src={arrow} alt='orderArrow' className='orderBtnArrow'/>
-                            Повернутись до покупок
-                        </button>
-                    </div>
+                    )
                 }
         </div>
     </div>

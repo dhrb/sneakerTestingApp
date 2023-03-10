@@ -2,6 +2,7 @@
 .favoritesWrapper {
     padding: 20px;
     .productCard {
+        flex-wrap: wrap;
         display: flex;
         .productItem {
             border: 1px solid #eaeaea;

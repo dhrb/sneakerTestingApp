@@ -1,26 +1,32 @@
 import './../App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ContentLoader from 'react-content-loader';
 import heart from './../assets/img/heart.png'
 
 import addCart from './../assets/img/addCart.png'
 import unliked from './../assets/img/unliked.png'
 import checkDone from './../assets/img/checkDone.png'
+import AppContext from '../context';
 
-function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = true, favorited = false, isLoading}) {
-    const [isAdded, setAdd] = useState(added);
-    const [liked, setLiked] = useState(favorited );
+function ProductItem({id, title, imgUrl, price, onAddToCart, favorited, isLoading}) {
 
+    const {onRemoveFromLiked, isItemAdded, onAddToLike} = React.useContext(AppContext);
+    const [liked, setLiked] = useState(favorited)
+    
     const onClickPlus = () => {
-        setAdd(!isAdded)
-        onAdd({id,title, price, imgUrl})
+        onAddToCart({id,title, price, imgUrl})
     }
 
-    const onClickLike = () => {
+    const like = () => {
         setLiked(!liked)
-        onLiked ({id, title, price, imgUrl})
+        onAddToLike({id, title, price, imgUrl})
+        console.log('liked ' + id)
     }
-
+    const unlike = () => {
+        setLiked(!liked)
+        onRemoveFromLiked(id)
+        console.log('unliked ' + id)
+    }
     return (
         <div className='productItem'>
             <>
@@ -43,16 +49,16 @@ function ProductItem({id, title, imgUrl, price, onAdd, onLiked, added = true, fa
                 :
                 <>
                     {
-                        favorited ?
-                        <img className='likeBtn' src={heart} alt='liked' onClick={onClickLike}/>
+                        liked ?
+                        <img className='likeBtn' src={heart} alt='liked' onClick={unlike}/>
                         :
-                        <img className='likeBtn' src={unliked} alt='unliked' onClick={onClickLike}/>
+                        <img className='likeBtn' src={unliked} alt='unliked' onClick={like}/>
                     }
                     <img className='prodImg' src={imgUrl} alt='prodItem' />
                     <span className='productName'>{title}</span>
                     <div className='cardBottom'>
                         <span className='productPriceDesc'>Ціна: <b> {price}</b></span>
-                        <img src={added ? checkDone : addCart} alt='addcartitem' className='addCartImg' onClick={onClickPlus}/>
+                        <img src={isItemAdded(id) ?  checkDone : addCart } alt='addcartitem' className='addCartImg' onClick={onClickPlus}/>
                     </div>
                 </>
                 }
